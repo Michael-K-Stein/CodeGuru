@@ -1,0 +1,14 @@
+mov dx, ax
+push es
+pop ds
+LODSW
+mov cx, 1000h
+push cx
+pop ds
+mov cx, 0xCCCC
+mov dx, ax
+add dx, 16
+mov bx, dx
+sub bx, 40
+
+jmp dx

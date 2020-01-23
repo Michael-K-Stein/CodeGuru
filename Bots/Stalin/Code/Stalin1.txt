@@ -1,0 +1,11 @@
+STOSW
+MOV BX, AX
+ADD WORD BX, 40
+MOV AX, 0xCCCC
+
+MOV [BX], AX
+add bx, 7
+JMP short 9
+MOV [BX], CX
+sub bx, 7
+JMP short 16

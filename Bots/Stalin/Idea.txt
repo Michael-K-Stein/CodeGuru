@@ -1,0 +1,2 @@
+Stalin1 writes its location to the shared memory, then Stalin2 reads that and jumps to an appropriate location relative to Stalin1 which has a loop in it.
+The idea is to minimize the size of the code, since its less probably that someone will hit both bots when they are so close to eachother.
