@@ -1,0 +1,14 @@
+MOV BX, AX
+mov ax, 0x1000
+push ax
+pop es
+mov dx, 0xCCCC
+mov ax, 0xCCCC
+int 0x86
+add di, 0x0100
+int 0x86
+ADD WORD BX, 50
+loop:
+MOV [BX], ax
+add bx, 7
+JMP loop

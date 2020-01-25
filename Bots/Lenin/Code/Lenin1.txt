@@ -1,0 +1,42 @@
+@start:
+mov bx, ax
+mov cx, ax
+add cx, (@end-@start)
+add bx, 15
+mov si, cx
+mov cx, 0xcccc
+s:
+lodsw
+cmp ax, cx
+je s
+jmp inRange
+back:
+sub si, 2
+mov [si], cx
+jmp bx
+
+inRange:
+add si, 4
+cmp si, bx
+jge inRange2
+jmp back3
+
+inRange2:
+add bx, 40
+cmp si, bx
+jle s2
+jmp back2
+
+back2:
+sub bx, 40
+jmp back
+back3:
+dec si
+dec si
+jmp back
+s2:
+sub bx, 40
+dec si
+dec si
+jmp s
+@end:
