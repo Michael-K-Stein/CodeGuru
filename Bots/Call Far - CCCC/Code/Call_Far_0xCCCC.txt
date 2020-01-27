@@ -1,0 +1,29 @@
+@start:
+add ax, @call_far
+mov si, ax
+mov di, 0xCCCA
+push es
+push ds
+pop es
+movsw
+pop es
+mov ax, di
+@start2:
+;add ax,@call_far-@start
+dec ax
+dec ax
+
+push es
+pop ds
+
+mov bx,10h
+mov [bx+2],cs
+mov [bx],ax
+
+push cs
+pop ss
+
+mov sp,ax
+
+@call_far:
+call far [bx]

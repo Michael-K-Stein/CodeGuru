@@ -1,0 +1,2 @@
+Does the 'call far' mass write 256 (0x0100) times, then moves the entire code -2048 (F800) blocks up.
+Then repeates the 'call far' and the entire code again, indefinitely.

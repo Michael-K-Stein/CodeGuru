@@ -1,0 +1,2 @@
+Moves the code to the location 0xCCCA, then begins the 'Call Far' loop.
+This writes 0xCCCC 0x0010 instead of the standard location. This is because the location is now 0xCCCC.

@@ -1,0 +1,70 @@
+@start:
+add ax,@call_far-@start
+
+mov cx, 0x0100
+
+push ds
+pop dx
+
+push es
+pop ds
+
+mov bx,40h
+mov [bx+2],cs
+mov [bx],ax
+
+push cs
+pop ss
+
+mov sp,ax
+
+@call_far:
+dec cx
+jcxz @OutLoop
+call far [bx]
+
+@OutLoop:
+mov cx, 0x0100
+mov si, ax
+add ax, 0xF800
+mov [bx], ax
+mov sp,ax
+mov di, ax
+push dx
+pop ds
+push es
+push ds
+pop es
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+movsw
+pop es
+push es
+pop ds
+jmp ax

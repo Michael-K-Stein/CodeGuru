@@ -1,0 +1,17 @@
+@start:
+add ax,@call_far-@start
+
+push es
+pop ds
+
+mov bx,50h
+mov [bx+2],cs
+mov [bx],ax
+
+push cs
+pop ss
+
+mov sp,ax
+
+@call_far:
+call far [bx]
