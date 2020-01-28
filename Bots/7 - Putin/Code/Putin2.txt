@@ -1,6 +1,5 @@
 @start:
 add ax, @call_far-@start
-mov cx, 0x0100
 
 push ds
 pop dx
@@ -28,38 +27,12 @@ pop ds
 push es
 push ds
 pop es
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
+mov cx, 17
+rep movsw
 pop es
 push es
 pop ds
+mov cx, 0x0100
 jmp ax
 
 
