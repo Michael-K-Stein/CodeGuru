@@ -19,7 +19,7 @@ mov sp,ax
 
 mov si, ax
 mov ax, [4]
-sub ax, 0x041A
+sub ax, 0x0402
 mov [bx], ax
 mov sp,ax
 mov di, ax
@@ -69,9 +69,8 @@ jcxz @OutLoop
 call far [bx]
 
 @OutLoop:
-mov cx, 0x0100
 mov si, ax
-add ax, 0xF800
+add ax, 0xEE00
 mov [bx], ax
 mov sp,ax
 mov di, ax
@@ -80,35 +79,9 @@ pop ds
 push es
 push ds
 pop es
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
+mov cx, 0x0011
+rep movsw
+mov cx, 0x0100
 pop es
 push es
 pop ds

@@ -26,9 +26,8 @@ jcxz @OutLoop
 call far [bx]
 
 @OutLoop:
-mov cx, 0x0100
 mov si, ax
-add ax, 0xF800
+add ax, 0xEE00
 mov [bx], ax
 mov sp,ax
 mov di, ax
@@ -37,36 +36,10 @@ pop ds
 push es
 push ds
 pop es
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
-movsw
+mov cx, 0x0011
+rep movsw
 pop es
 push es
 pop ds
+mov cx, 0x0100
 jmp ax
