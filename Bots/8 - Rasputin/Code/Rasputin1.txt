@@ -1,5 +1,16 @@
 @start:
+mov si, ax
 add ax,@call_far-@start
+
+push es
+push ss
+pop es
+mov dx, sp
+add si, @CopyMe
+movsw
+mov sp, dx
+pop es
+
 mov dx, ax
 
 mov dl, 0xA3
@@ -10,10 +21,10 @@ push ds
 pop es
 mov di, dx
 stosw
-pop es
-
-push es
 pop ds
+
+;push es
+;pop ds
 
 mov bx,50h
 mov [bx+2],cs
@@ -26,5 +37,10 @@ add dx, 0x0300
 
 mov sp,dx
 
+dec di
+
 @call_far:
 call far [bx]
+
+@CopyMe:
+rep movsw
