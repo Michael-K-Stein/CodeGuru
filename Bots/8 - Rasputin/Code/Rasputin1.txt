@@ -16,7 +16,7 @@ mov dx, ax
 mov dl, 0xA3
 
 mov ax, 0x1FFF
-push es
+push ss
 push ds
 pop es
 mov di, dx
@@ -39,8 +39,14 @@ mov sp,dx
 
 dec di
 
+xor si, si
+
 @call_far:
 call far [bx]
 
 @CopyMe:
 rep movsw
+add sp, 0x0300
+xor si, si
+mov cx, @CopyMe
+@EndCopyMe:
