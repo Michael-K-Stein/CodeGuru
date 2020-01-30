@@ -1,0 +1,30 @@
+@start:
+add ax,@call_far-@start
+mov dx, ax
+
+mov dl, 0xA3
+
+mov ax, 0x1FFF
+push es
+push ds
+pop es
+mov di, dx
+stosw
+pop es
+
+push es
+pop ds
+
+mov bx,50h
+mov [bx+2],cs
+mov [bx],dx
+
+push cs
+pop ss
+
+add dx, 0x0300
+
+mov sp,dx
+
+@call_far:
+call far [bx]
