@@ -52,10 +52,11 @@ rep movsw
 add sp, 0x0300
 mov cx, @EndCopyMe - @CopyMe
 mov ax, 0x1FFF
-sub di, 0x0300
-add di, @call_far-@start
+sub di, 0x0600
+sub di, 0x0033
 stosw
 dec di
 dec di
+mov [bx], di
 jmp di
 @EndCopyMe:
