@@ -7,7 +7,8 @@ push ss
 pop es
 mov dx, sp
 add si, @CopyMe
-movsw
+mov cx, @EndCopyMe - @CopyMe
+rep movsw
 mov sp, dx
 pop es
 
@@ -41,12 +42,20 @@ dec di
 
 xor si, si
 
+mov cx, @EndCopyMe - @CopyMe
+
 @call_far:
 call far [bx]
 
 @CopyMe:
 rep movsw
 add sp, 0x0300
-xor si, si
-mov cx, @CopyMe
+mov cx, @EndCopyMe - @CopyMe
+mov ax, 0x1FFF
+sub di, 0x0300
+add di, @call_far-@start
+stosw
+dec di
+dec di
+jmp di
 @EndCopyMe:
