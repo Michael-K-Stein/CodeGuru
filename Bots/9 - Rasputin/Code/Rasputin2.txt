@@ -55,7 +55,7 @@ call far [bx]
 
 @CopyMe:
 rep movsw
-sub sp, (0x0600 + (@EndCopyMe - @CopyMe - 1))
+sub sp, (0x05E8 + (@EndCopyMe - @CopyMe - 1))
 mov cl, (@EndCopyMe - @CopyMe + 1)/2
 mov ax, 0x1FFF
 sub di, (0x0900 + (@EndCopyMe - @CopyMe) + 4)
