@@ -49,11 +49,10 @@ call far [bx]
 
 @CopyMe:
 rep movsw
-add sp, 0x0300
+sub sp, 0x0633
 mov cx, @EndCopyMe - @CopyMe
 mov ax, 0x1FFF
-sub di, 0x0600
-sub di, 0x0033
+sub di, 0x0933
 stosw
 dec di
 dec di
