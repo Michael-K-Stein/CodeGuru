@@ -52,13 +52,11 @@ rep movsw
 sub sp, 0x0637
 mov cx, @EndCopyMe - @CopyMe
 mov ax, 0x1FFF
-sub di, 0x0941
+sub di, 0x093B
 stosw
-dec di
-dec di
 mov [bx], di
 mov dx, di
-dec di
 xor si, si
-jmp di
+dec di
+jmp dx
 @EndCopyMe:
