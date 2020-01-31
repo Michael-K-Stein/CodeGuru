@@ -1,6 +1,7 @@
 @start:
 mov si, ax
 add ax,@call_far-@start
+sub ah, 0x01
 
 push ds
 push es
@@ -20,7 +21,6 @@ mov sp, dx
 pop es
 
 mov dx, ax
-
 mov dl, 0xA3
 
 mov ax, 0x1FFF
