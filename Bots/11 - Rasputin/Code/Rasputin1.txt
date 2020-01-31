@@ -1,0 +1,56 @@
+@start:
+mov si, ax
+
+push es
+push ss
+pop es
+mov dx, sp
+add si, @CopyMe
+mov cl, 0Dh
+mov cx, (@EndCopyMe - @CopyMe + 1)/2
+rep movsw
+mov sp, dx
+pop es
+
+mov ax, 0x1FFF
+push ss
+push es
+push ds
+pop es
+mov di, 0x00A3
+stosw
+pop es
+pop ds
+mov bx,50h
+mov [bx+2],cs
+mov word [bx],0x00A3
+push cs
+pop es
+
+push cs
+pop ss
+
+mov sp,0x03A3
+
+dec di
+
+xor si, si
+
+mov cl, (@EndCopyMe - @CopyMe + 1)/2
+
+@call_far:
+call far [bx]
+
+@CopyMe:
+rep movsw
+add sp, (0x08E8 + (@EndCopyMe - @CopyMe - 1))
+mov cl, (@EndCopyMe - @CopyMe + 1)/2
+mov ax, 0x1FFF
+add di, (0x0600 - (@EndCopyMe - @CopyMe) - 4)
+mov dx, di
+mov [bx], di
+stosw
+xor si, si
+dec di
+jmp dx
+@EndCopyMe:
