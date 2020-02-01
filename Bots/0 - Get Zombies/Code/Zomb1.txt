@@ -1,0 +1,46 @@
+@Start:
+mov [0xDFE5], ss
+mov cx, ax
+xor ax, ax
+xor dx, dx
+
+mov di, 0x2102
+
+push es
+push ds
+pop es
+
+int 86h
+
+pop es
+
+mov word [0xDFE7], 0xB8 ; Then the zombie jumps to 0xDFE7
+mov word [0xDFE8], cx ; So we put the order 'mov ax, {my ax}'
+add word [0xDFE8], @Zomb ; Then we add some offset to that original {ax}
+mov word [0xDFEA], 0xE0FF ; add then we put 'jmp ax'
+
+@myLoop:
+ PUSH DS
+ POP ES
+ MOV DI, cx
+ MOV AX, 0xCCCC
+again2:
+ STOSW
+ sub WORD DI, 0xB
+ JMP again2
+ 
+@Zomb:
+ PUSH DS
+ POP ES
+ push ss
+ pop dx
+ add ax, dx
+ sub ax, [0xDFE5]
+ MOV DI, ax
+ MOV AX, 0xCCCC
+again:
+ STOSW
+ ADD WORD DI, 0xB
+ JMP again
+
+@End:
