@@ -1,5 +1,4 @@
 @Start:
-@CoolValue:
 mov [0xDFE5], ss
 mov cx, ax
 xor ax, ax
@@ -15,10 +14,6 @@ int 86h
 
 pop es
 
-;mov bx, 0x2142 ; z15e checks this block
-;mov word [bx], 0x0 ; If we set the next 6 bytes to 0x0
-;mov word [bx + 2], 0x0
-;mov word [bx + 4], 0x0
 mov word [0xDFE7], 0xB8 ; Then the zombie jumps to 0xDFE7
 mov word [0xDFE8], cx ; So we put the order 'mov ax, {my ax}'
 add word [0xDFE8], @Zomb ; Then we add some offset to that original {ax}
@@ -32,11 +27,10 @@ mov word [0xDFEA], 0xE0FF ; add then we put 'jmp ax'
  sub di, @End
 again2:
  STOSW
- sub WORD DI, 0x2
+ sub WORD DI, 0x3
  JMP again2
  
 @Zomb:
- mov bx, 3h
  PUSH DS
  POP ES
  push ss
@@ -47,19 +41,13 @@ again2:
  MOV AX, 0xCCCC
  mov cx, 0x6F9B
 again:
-jcxz @RKillZomb
+jcxz @KillZomb
  STOSW
- sub di, 2h
+ add di, 0xB
  dec cx
  JMP again
 
 @KillZomb:
-cmp bx, 0x00
-je @RKillZomb
-dec bx
-mov cx, 0xFFFF
-
-@RKillZomb:
 db 0xCC
 
 @End:
