@@ -150,17 +150,17 @@ xor si, si
 
 mov cl, (@ZEndCopyMe - @ZCopyMe + 1)/2
 
-mov ax, 0x0200 ; Repeates until death - should be around 0x0140
+mov ax, 0x0240 ; Repeates until death - should be around 0x0140
 
 @Zcall_far:
 call far [bx]
 
 @ZCopyMe:
 rep movsw
-sub sp, (0x05E8 + (@ZEndCopyMe - @ZCopyMe - 1) - 7h)
+sub sp, (0x05E8 + (@ZEndCopyMe - @ZCopyMe - 1) - 8h)
 mov cx, ax
 mov ax, 0x1FFF
-sub di, (0x0900 + (@ZEndCopyMe - @ZCopyMe) + 3)
+sub di, (0x0900 + (@ZEndCopyMe - @ZCopyMe) + 4h)
 mov dx, di
 mov [bx], di
 stosw
@@ -169,7 +169,7 @@ mov ax, cx
 xor si, si
 dec ax
 jz short (@Death+1)
-mov cl, (@ZEndCopyMe - @ZCopyMe + 1)/2
+mov cx, (@ZEndCopyMe - @ZCopyMe + 1)/2
 dec di
 jmp dx
 @ZEndCopyMe:
