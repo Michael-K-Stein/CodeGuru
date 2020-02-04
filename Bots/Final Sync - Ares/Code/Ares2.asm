@@ -72,5 +72,9 @@ mov [bx], di
 stosw
 xor si, si
 dec di
+mov di, di
+mov di, di
+mov di, di
+mov di, di
 jmp dx
 @EndCopyMe:
