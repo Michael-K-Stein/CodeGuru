@@ -98,6 +98,7 @@ mov [bx], di
 stosw
 xor si, si
 dec di
+;mov word [di-0x0134], 0xCCCC
 mov di, di
 mov di, di
 mov di, di
@@ -130,7 +131,7 @@ rep movsw
 mov sp, dx
 pop es
 
-sub bh, 0x35
+sub bh, 0x36
 mov bl, 0xA3
 
 mov ax, 0x1FFF
