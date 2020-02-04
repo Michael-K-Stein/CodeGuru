@@ -48,13 +48,15 @@ dec di
 
 xor si, si
 
-; Waste 60 turns
-mov cx, 0x14
+; Waste 56 turns
+mov cx, 0x12
 @DumbLoop:
 dec cx
 jcxz @EndDumbLoop
 jmp @DumbLoop
 @EndDumbLoop:
+nop
+nop
 
 mov cl, (@EndCopyMe - @CopyMe + 1)/2
 
@@ -63,7 +65,7 @@ call far [bx]
 
 @CopyMe:
 rep movsw
-sub sp, (0x05E8 + (@EndCopyMe - @CopyMe - 1))
+sub sp, (0x05E8 + (@EndCopyMe - @CopyMe - 1)-8h)
 mov cl, (@EndCopyMe - @CopyMe + 1)/2
 mov ax, 0x1FFF
 sub di, (0x0900 + (@EndCopyMe - @CopyMe) + 4)
