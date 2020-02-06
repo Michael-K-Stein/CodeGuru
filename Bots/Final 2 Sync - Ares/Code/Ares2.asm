@@ -1,6 +1,23 @@
 @start:
 mov si, ax
-add ax,@call_far-@start
+
+; Waste 57 turns
+add ax,@EndCopyMe-@start
+mov di, ax
+mov ax, 0xCCCC
+push es
+push ds
+pop es
+mov cx, 0x0C
+@DumbLoop:
+stosw
+dec cx
+jcxz @EndDumbLoop
+jmp @DumbLoop
+@EndDumbLoop:
+stosw
+pop es
+xor di, di
 
 push es
 push ss
@@ -47,16 +64,6 @@ mov sp,dx
 dec di
 
 xor si, si
-
-; Waste 56 turns
-mov cx, 0x12
-@DumbLoop:
-dec cx
-jcxz @EndDumbLoop
-jmp @DumbLoop
-@EndDumbLoop:
-nop
-nop
 
 mov cl, (@EndCopyMe - @CopyMe + 1)/2
 
