@@ -8,13 +8,17 @@ mov ax, 0xCCCC
 push es
 push ds
 pop es
-mov cx, 0x0C
+mov dx, 0xCCCC
+int 86h
+int 86h
+mov cx, 0x0B
 @DumbLoop:
 stosw
 dec cx
 jcxz @EndDumbLoop
 jmp @DumbLoop
 @EndDumbLoop:
+stosw
 stosw
 pop es
 xor di, di
