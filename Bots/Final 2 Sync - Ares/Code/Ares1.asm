@@ -39,7 +39,7 @@ push cs
 pop es
 ; Waste 40 turns
 ; ---
-mov cx, 0x0C
+mov cx, 0x0B
 mov ax, 0xCCCC
 @DumbLoop:
 stosw
