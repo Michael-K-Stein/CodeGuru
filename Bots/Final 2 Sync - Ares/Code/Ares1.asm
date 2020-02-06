@@ -13,11 +13,6 @@ pop es
 int 86h
 int 86h
 
-mov word [0xDFE7], 0xB8 ; Then the zombie jumps to 0xDFE7
-mov word [0xDFE8], si ; So we put the order 'mov ax, {my ax}'
-add word [0xDFE8], @ZStart ; Then we add some offset to that original {ax}
-mov word [0xDFEA], 0xE0FF ; add then we put 'jmp ax'
-
 pop es
 
 mov [si + @ZStart - 2], ss
@@ -39,7 +34,7 @@ push cs
 pop es
 ; Waste 40 turns
 ; ---
-mov cx, 0x0B
+mov cx, 0x05
 mov ax, 0xCCCC
 @DumbLoop:
 stosw
@@ -48,6 +43,37 @@ jcxz @EndDumbLoop
 jmp @DumbLoop
 
 @EndDumbLoop:
+
+stosw
+stosw
+
+mov word [0xDFE7], 0xB8 ; Then the zombie jumps to 0xDFE7
+mov word [0xDFE8], si ; So we put the order 'mov ax, {my ax}'
+add word [0xDFE8], @ZStart ; Then we add some offset to that original {ax}
+mov word [0xDFEA], 0xE0FF ; add then we put 'jmp ax'
+
+stosw
+stosw
+stosw
+stosw
+stosw
+stosw
+stosw
+stosw
+stosw
+stosw
+stosw
+stosw
+stosw
+stosw
+stosw
+stosw
+stosw
+stosw
+stosw
+stosw
+stosw
+stosw
 stosw
 xor di, di
 pop es
