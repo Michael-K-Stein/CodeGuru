@@ -39,7 +39,7 @@ push cs
 pop es
 ; Waste 40 turns
 ; ---
-mov cx, 0x08
+mov cx, 0x0C
 mov ax, 0xCCCC
 @DumbLoop:
 stosw
@@ -131,6 +131,19 @@ sub ax, [si - 2]
 mov cx, 0x000A
 mul cx
 mov bx, ax
+
+push es
+push ds
+pop es
+push ax
+mov di, ax
+mov ax, 0xCCCC
+mov dx, ax
+int 86h
+int 86h
+xor di, di
+pop ax
+pop es
 
 push es
 push ss
