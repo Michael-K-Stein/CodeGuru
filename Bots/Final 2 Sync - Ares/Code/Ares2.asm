@@ -11,7 +11,7 @@ pop es
 mov dx, 0xCCCC
 int 86h
 int 86h
-mov cx, 0x1B
+mov cx, 0x0E
 @DumbLoop:
 stosw
 dec cx
