@@ -1,6 +1,23 @@
 @start:
 mov si, ax
 
+nop
+nop
+nop
+xchg ax, cx
+mov di, 0x20A0
+
+push es
+push ds
+pop es
+
+int 86h
+int 86h
+
+pop es
+
+xchg cx, ax
+
 ; Waste 57 turns
 add ax,@EndCopyMe-@start
 mov di, ax
@@ -9,15 +26,15 @@ push es
 push ds
 pop es
 mov dx, 0xCCCC
-int 86h
-int 86h
-mov cx, 0x0E
+mov cx, 0x0B
 @DumbLoop:
 stosw
 dec cx
 jcxz @EndDumbLoop
 jmp @DumbLoop
 @EndDumbLoop:
+stosw
+stosw
 stosw
 stosw
 pop es
