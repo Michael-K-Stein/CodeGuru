@@ -1,0 +1,55 @@
+@start:
+PUSH ES
+POP DS
+MOV CX, 0x4343
+PUSH CX
+MOV DX, SP
+
+MOV dx, cs
+add dx, 0x02
+push dx
+pop ds
+
+;mov bx, ax
+;mov word [bx], 0x12
+
+PUSH dx
+PUSH ax
+
+RETF
+
+nop
+nop
+nop
+nop
+nop
+
+nop
+nop
+nop
+nop
+nop
+
+nop
+nop
+nop
+nop
+
+
+add ax,@call_far-@start
+sub ax, 0x20
+
+push es
+pop ds
+
+mov bx,50h
+mov [bx+2],cs
+mov [bx],ax
+
+push cs
+pop ss
+
+mov sp,ax
+
+@call_far:
+call far [bx]
