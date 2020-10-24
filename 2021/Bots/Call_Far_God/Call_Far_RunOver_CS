@@ -1,0 +1,45 @@
+CS_OFFSET equ 0x06
+
+@start:
+mov bh, ah
+mov word [bx+0x03], 0x1FFF
+
+MOV DX, SP
+
+MOV dx, cs
+add dx, CS_OFFSET
+push dx
+pop ds
+
+
+PUSH dx
+mov dx,ax
+add dx, @AfterCSFuckery-(CS_OFFSET*16)
+PUSH dx
+
+RETF
+
+@AfterCSFuckery:
+mov al, 0x03
+add ax,@call_far-@start-(CS_OFFSET*16)
+sub ax, @end-2
+
+
+mov bx,50h
+mov [bx+2],cs
+mov [bx],ax
+
+push cs
+pop ss
+
+mov sp,ax
+add sp, 0x0100
+
+jmp ax
+
+@call_far:
+call far [bx]
+
+
+
+@end:
