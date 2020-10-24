@@ -1,0 +1,11 @@
+push es
+pop ds
+
+mov cx, 0x4343
+push cx
+mov dx,sp
+
+push ss
+push dx
+
+retf
