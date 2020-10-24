@@ -10,32 +10,15 @@ add dx, 0x02
 push dx
 pop ds
 
-;mov bx, ax
-;mov word [bx], 0x12
 
 PUSH dx
-PUSH ax
+mov dx,ax
+add dx, @AfterCSFuckery-0x20
+PUSH dx
 
 RETF
 
-nop
-nop
-nop
-nop
-nop
-
-nop
-nop
-nop
-nop
-nop
-
-nop
-nop
-nop
-nop
-
-
+@AfterCSFuckery:
 add ax,@call_far-@start
 sub ax, 0x20
 
