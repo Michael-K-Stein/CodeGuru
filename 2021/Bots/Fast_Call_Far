@@ -1,0 +1,51 @@
+@start:
+push ax
+mov cx, ax
+add cx, @back
+mov di, ax
+add di,@end
+
+mov ax, 0x9B9B
+mov dx, ax
+push es
+push ds
+pop es
+
+int 0x86
+int 0x86
+mov word [di], 0xE1FF
+sub di, 0x0200
+jmp di
+
+@back:
+
+pop es
+pop ax
+mov di, ax
+add di, @end
+
+mov cx, 0x0100
+
+
+@start2:
+add ax,@call_far-@start
+
+push es
+pop ds
+
+mov bx,50h
+mov [bx+2],cs
+mov [bx],ax
+
+push cs
+pop ss
+
+mov sp,ax
+
+@call_far:
+call far [bx]
+
+
+
+
+@end:
