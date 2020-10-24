@@ -1,0 +1,82 @@
+CS_OFFSET equ 0x06
+
+@start:
+
+;Copy the recusive thing into the extra segment
+mov cx, (@END_Area_To_Copy-@Area_To_Copy)/2
+mov si, ax
+add si, @Area_To_Copy
+rep movsw
+
+mov bh, ah
+mov word [bx+0x03], 0x1FFF
+
+MOV DX, SP
+
+MOV dx, cs
+add dx, CS_OFFSET
+push dx
+pop ds
+
+
+PUSH dx
+mov dx,ax
+add dx, @AfterCSFuckery-(CS_OFFSET*16)
+PUSH dx
+
+RETF
+
+@AfterCSFuckery:
+mov al, 0x03
+add ax,@call_far-@start-(CS_OFFSET*16)
+sub ax, @end-2
+
+push ds
+push es
+pop ds
+
+mov bx,50h
+mov [bx+2],cs
+mov [bx],ax
+
+pop es
+
+push cs
+pop ss
+
+mov sp,ax
+add sp, 0x0100
+
+xor si,si
+mov di,ax
+inc di
+mov cx, (@END_Area_To_Copy-@Area_To_Copy)/2
+
+mov dx, 0x1FFF
+
+jmp ax
+
+@call_far:
+call far [bx]
+
+
+
+@end:
+
+
+@Area_To_Copy:
+
+REP movsw
+sub sp, 0x0400 - 2
+push dx
+xor si,si
+mov di, sp
+inc di
+mov cx, (@END_Area_To_Copy-@Area_To_Copy)/2
+sub word [bx], 0x0400
+mov bp,sp
+add sp,0x0100
+nop
+jmp bp
+
+@END_Area_To_Copy:
