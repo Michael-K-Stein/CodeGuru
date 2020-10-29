@@ -1,4 +1,4 @@
-CS_OFFSET equ -0x01
+CS_OFFSET equ 0x01
 COCAINE_LINES equ 2
 GAP equ 0x0400
 
