@@ -25,7 +25,7 @@ PUSH dx
 
 ; Change AX so that we don't hit the first line
 and ax, 0xF000
-add ax, 0x0300
+add ax, 0x0400
 
 
 mov bh, ah
