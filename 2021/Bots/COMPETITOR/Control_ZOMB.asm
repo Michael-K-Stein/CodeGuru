@@ -1,5 +1,5 @@
-mov ax, 0x1e07
-mov dx, 0x5089
+mov ax, 0x071e
+mov dx, 0x8950
 
 push es
 push cs
