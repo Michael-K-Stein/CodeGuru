@@ -55,7 +55,7 @@ add sp, GAP
 xor si,si
 mov di,ax
 inc di
-mov cx, (@END_Area_To_Copy-@Area_To_Copy)/2
+mov cx, (@END_Area_To_Copy_mid-@Area_To_Copy)/2
 
 mov ax, 0x1FFF
 mov bp, 0x24
@@ -75,15 +75,18 @@ call far [bx]
 
 REP movsw
 sub sp, GAP
-sub di, 2*GAP + (@END_Area_To_Copy-@Area_To_Copy) + 3
+sub di, (2*GAP + (@END_Area_To_Copy-@Area_To_Copy) + 1)+0x2400
 mov word [bx], di
+sub si,2
 movsw
 movsw
 dec di
 xor si,si
-mov cl, (@END_Area_To_Copy-@Area_To_Copy)/2
+mov cl, (@END_Area_To_Copy_mid-@Area_To_Copy)/2
 
 jmp [bx]
+
+@END_Area_To_Copy_mid:
 
 sub sp, bp
 call far [bx]
