@@ -14,7 +14,7 @@ mov cx, 0x0101
 
 mov dx, 0xCCCC
 
-mov si, ax
+;mov si, ax
 add si, @global_end
 
 @anti_call_far_loop:
@@ -42,19 +42,20 @@ jmp @anti_call_far_loop
 
 @continue:
 
+xor si,si
+xor di,di
+
 pop ax
-pop es
+
 
 @call_far_start_setup:
-add ax, @call_far_start_setup
+;add ax, @call_far_start_setup
 
 ;Copy the recusive thing into the extra segment
 mov cx, (@END_Area_To_Copy-@Area_To_Copy)/2
 mov si, ax
 add si, @Area_To_Copy
 rep movsw
-
-MOV DX, SP
 
 MOV dx, cs
 add dx, CS_OFFSET
