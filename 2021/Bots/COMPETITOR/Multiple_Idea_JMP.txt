@@ -1,0 +1,1 @@
+don't xor si after every replication, and thus keep copying from the shared memory (or stack) in order to change the gap size as needed!
