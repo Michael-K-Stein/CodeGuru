@@ -25,12 +25,12 @@ add dx, @AfterCSFuckery-(CS_OFFSET*16)
 PUSH dx
 
 ; Change AX so that we don't hit the first line
-and ax, 0x4000
+and ax, 0xc000
 add ax, GAP + (GAP*3)-0x0600 - 0x0100
 
 
 mov bh, ah
-mov word [bx - GAP +0x03 + 0xA0], 0x1FFF
+mov word [bx - GAP +0x03 + 0xA0], 0x18FF
 mov word [bx - GAP +0x01 + 0xA0], 0xEC29
 
 RETF
@@ -60,7 +60,7 @@ mov di,ax
 inc di
 mov cx, (@END_Area_To_Copy1_mid-@Area_To_Copy1)/2
 
-mov ax, 0x1FFF
+;mov ax, 0x1FFF
 mov bp, 0x24
 
 jmp [bx]
@@ -143,6 +143,6 @@ nop
 @END_Area_To_Copy4_mid:
 
 sub sp,bp
-call far [bx]
+call far [bx+si]
 
 @END_Area_To_Copy:
