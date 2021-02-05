@@ -1,0 +1,455 @@
+CS_OFFSET equ -0x01
+COCAINE_LINES equ 2
+GAP equ 0x0F00
+SS_GAP equ 0x4000
+jmp @start
+
+;FAKE
+db 0xB1
+db 0x17
+db 0x89
+db 0xC6
+db 0x81
+db 0xC6
+db 0x89
+db 0x00
+db 0xF3
+db 0xA5
+db 0x89
+db 0xF2
+db 0xB1
+db 0xD6
+db 0xB1
+db 0x0B
+db 0xF3
+db 0xA5
+db 0xB1
+db 0x1A
+db 0xF3
+db 0xA5
+db 0x8C
+db 0xCA
+db 0x83
+db 0xC2
+db 0xFF
+db 0x52
+db 0x1F
+db 0x52
+db 0x89
+db 0xC2
+db 0x81
+db 0xC2
+db 0x69
+db 0x00
+db 0x52
+db 0x25
+db 0x00
+db 0xC0
+db 0x05
+db 0x00
+db 0x35
+db 0x88
+db 0xE7
+db 0xC7
+db 0x87
+db 0xA3
+db 0xF1
+db 0xFF
+db 0x1F
+db 0xC7
+db 0x87
+db 0xA1
+db 0xF1
+db 0x29
+db 0xEC
+db 0xCB
+db 0xB0
+db 0xA1
+db 0x2D
+db 0x00
+db 0x0F
+db 0x1E
+db 0x06
+db 0x1F
+db 0xBB
+db 0x00
+db 0x03
+db 0x8C
+db 0x4F
+db 0x02
+db 0x89
+db 0x07
+db 0x07
+db 0x0E
+db 0x17
+db 0x89
+db 0xC4
+db 0x81
+db 0xC4
+db 0x00
+db 0x40
+db 0x31
+db 0xF6
+db 0x89
+db 0xC7
+db 0x47
+db 0xB9
+db 0x08
+db 0x00
+db 0xBE
+db 0x2E
+db 0x00
+db 0xB8
+db 0x03
+db 0x00
+db 0xBD
+db 0xFC
+db 0x00
+db 0xFF
+db 0x27
+db 0x29
+db 0xEC
+db 0xFF
+db 0xEF
+db 0x13
+db 0x27
+db 0x89
+db 0xC7
+db 0xB1
+db 0x09
+db 0x4D
+db 0xFF
+db 0x27
+db 0x90
+db 0x29
+db 0xA5
+db 0x81
+db 0xEF
+db 0x15
+db 0x19
+db 0x89
+db 0x3F
+db 0xA5
+db 0x08
+db 0x45
+db 0x31
+db 0xF6
+db 0xFF
+db 0x20
+db 0x90
+db 0x29
+db 0xEC
+db 0xFF
+db 0x18
+db 0xF3
+db 0x40
+db 0x89
+db 0x3F
+db 0xA5
+db 0x08
+db 0xFF
+db 0x27
+db 0x90
+db 0xC7
+db 0xB1
+db 0x0C
+db 0xFF
+db 0xA5
+db 0x81
+db 0xEF
+db 0x1B
+db 0x08
+db 0x31
+db 0xF6
+db 0xBD
+db 0x24
+db 0x00
+db 0x81
+db 0xEC
+;END FAKE
+
+
+@start:
+
+;Copy the recusive thing into the stack segment
+push es
+push ss
+pop es
+mov cl, (@Six_Time_Copy-@Area_To_Copy)/2
+mov si, ax
+add si, @Area_To_Copy
+rep movsw
+
+mov dx, si
+mov cl, (@END_Six_Time_Copy - @Six_Time_Copy)/2
+rep movsw
+mov si, dx
+mov cl, (@END_Six_Time_Copy - @Six_Time_Copy)/2
+rep movsw
+mov si, dx
+mov cl, (@END_Six_Time_Copy - @Six_Time_Copy)/2
+rep movsw
+mov si, dx
+mov cl, (@END_Six_Time_Copy - @Six_Time_Copy)/2
+rep movsw
+mov si, dx
+mov cl, (@END_Six_Time_Copy - @Six_Time_Copy)/2
+rep movsw
+mov si, dx
+mov cl, (@END_Six_Time_Copy - @Six_Time_Copy)/2
+rep movsw
+
+mov cl, (@END_Area_To_Copy - @END_Six_Time_Copy)/2
+rep movsw
+
+MOV dx, cs
+add dx, CS_OFFSET
+push dx
+pop ds
+
+
+PUSH dx
+mov dx,ax
+add dx, @AfterCSFuckery-(CS_OFFSET*16)
+PUSH dx
+
+; Change AX so that we don't hit the first line
+and ax,0xc000
+add ax, GAP + (GAP*3)-0x0600 - 0x0100
+
+mov bh, ah
+mov word [bx - GAP +0x03 + 0xA0], 0x1fFF
+mov word [bx - GAP +0x01 + 0xA0], 0xEC29
+
+RETF
+
+@AfterCSFuckery:
+mov al, 0xA1
+sub ax, GAP
+
+push ds
+push es
+pop ds
+
+mov bx,300h
+mov [bx+2],cs
+mov [bx],ax
+
+pop es
+
+push cs
+pop ss
+
+mov sp,ax
+add sp, SS_GAP
+
+xor si,si
+mov di,ax
+inc di
+
+mov cx, (@END_Area_To_Copy_SS_1_mid-@Area_To_Copy_SS_1)/2
+mov si, @Area_To_Copy_SS_1 - @Area_To_Copy
+
+mov ax, 3
+mov bp, 0x00FC
+
+jmp [bx]
+
+@call_far:
+sub sp, bp
+call far [bx]
+
+
+
+@end:
+
+
+@Area_To_Copy:
+@Area_To_Copy1:
+
+REP movsw
+sub di, (@END_Area_To_Copy1_mid-@Area_To_Copy1) +2 + (GAP*3) - 0x0600
+mov word [bx], di
+movsw
+movsw
+sub di,ax
+mov cl, (@END_Area_To_Copy2_mid-@Area_To_Copy2)/2
+dec bp
+jmp [bx]
+
+@END_Area_To_Copy1_mid:
+nop
+sub sp, bp
+call far [bx]
+
+@Area_To_Copy2:
+REP movsw
+sub di, (@END_Area_To_Copy2_mid-@Area_To_Copy2) +2 + GAP + 0x0A00
+mov word [bx], di
+movsw
+movsw
+sub di,ax
+mov cl, (@END_Area_To_Copy1_mid-@Area_To_Copy1)/2
+inc bp
+xor si,si
+jmp [bx+si]
+
+@END_Area_To_Copy2_mid:
+nop
+sub sp,bp
+call far [bx+si]
+
+
+
+; Start sequence to kill other callfars!
+
+@Six_Time_Copy:
+
+@Area_To_Copy_SS_1:
+REP movsw
+sub di, (@END_Area_To_Copy_SS_1_mid - @Area_To_Copy_SS_1) +2 + SS_GAP
+mov word [bx], di
+movsw
+movsw
+sub di,ax
+mov cl, (@END_Area_To_Copy_SS_7_mid-@Area_To_Copy_SS_7)/2
+jmp [bx]
+nop
+
+@END_Area_To_Copy_SS_1_mid:
+nop
+sub sp,bp
+call far [bx]
+
+@END_Six_Time_Copy:
+
+@Area_To_Copy_SS_7:
+REP movsw
+sub di, (@END_Area_To_Copy_SS_7_mid - @Area_To_Copy_SS_7) +2 + SS_GAP
+mov word [bx], di
+movsw
+movsw
+sub di,ax
+mov cl, (@END_Area_To_Copy_SS_8_mid-@Area_To_Copy_SS_8)/2
+jmp [bx]
+nop
+
+@END_Area_To_Copy_SS_7_mid:
+nop
+sub sp,bp
+call far [bx]
+
+@Area_To_Copy_SS_8:
+REP movsw
+sub di, (@END_Area_To_Copy_SS_8_mid - @Area_To_Copy_SS_8) +2 + SS_GAP
+mov word [bx], di
+movsw
+movsw
+sub di,ax
+mov cl, (@END_Area_To_Copy1_mid-@Area_To_Copy1)/2
+mov bp, 0x24
+sub sp, SS_GAP - GAP - 0x0a00
+xor si,si
+jmp [bx+si]
+
+@END_Area_To_Copy_SS_8_mid:
+nop
+sub sp,bp
+call far [bx+si]
+
+
+@END_Area_To_Copy:
+
+;FAKE
+db 0xB1
+db 0x17
+db 0x89
+db 0xC6
+db 0x81
+db 0xC6
+db 0x89
+db 0x00
+db 0xF3
+db 0xA5
+db 0x89
+db 0xF2
+db 0xB1
+db 0xD6
+db 0xB1
+db 0x0B
+db 0xF3
+db 0xA5
+db 0xB1
+db 0x1A
+db 0xF3
+db 0xA5
+db 0x8C
+db 0xCA
+db 0x83
+db 0xC2
+db 0xFF
+db 0x52
+db 0x1F
+db 0x52
+db 0x89
+db 0xC2
+db 0x81
+db 0xC2
+db 0x69
+db 0x00
+db 0x52
+db 0x25
+db 0x00
+db 0xC0
+db 0x05
+db 0x00
+db 0x35
+db 0x88
+db 0xE7
+db 0xC7
+db 0x87
+db 0xA3
+db 0xF1
+db 0xFF
+db 0x1F
+db 0xC7
+db 0x87
+db 0xA1
+db 0xF1
+db 0x29
+db 0xEC
+db 0xCB
+db 0xB0
+db 0xA1
+db 0x2D
+db 0x00
+db 0x0F
+db 0x1E
+db 0x06
+db 0x1F
+db 0xBB
+db 0x00
+db 0x03
+db 0x8C
+db 0x4F
+db 0x02
+db 0x89
+db 0x07
+db 0x07
+db 0x0E
+db 0x17
+db 0x89
+db 0xC4
+db 0x81
+db 0xC4
+db 0x00
+db 0x40
+db 0x31
+db 0xF6
+db 0x89
+db 0xC7
+db 0x47
+db 0xB9
+db 0x08
+db 0x00
+;END FAKE
