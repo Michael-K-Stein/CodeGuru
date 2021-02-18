@@ -85,11 +85,29 @@ mov word [bx], di
 movsw
 movsw
 sub di,ax
+mov cl, (@END_Area_To_Copy2_mid-@Area_To_Copy2)/2
+jmp [bx]
+
+@END_Area_To_Copy1_mid:
+nop
+nop
+sub sp, bp
+call far [bx]
+
+@Area_To_Copy2:
+
+REP movsw
+sub di, (@END_Area_To_Copy2_mid-@Area_To_Copy2) +3 + GAP
+sub sp, GAP/2
+mov word [bx], di
+movsw
+movsw
+sub di,ax
 mov cl, (@END_Area_To_Copy1_mid-@Area_To_Copy1)/2
 xor si,si
 jmp [bx+si]
 
-@END_Area_To_Copy1_mid:
+@END_Area_To_Copy2_mid:
 nop
 nop
 sub sp, bp
